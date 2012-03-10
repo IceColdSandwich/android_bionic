@@ -440,43 +440,6 @@ libc_arch_static_src_files := \
 libc_arch_dynamic_src_files :=
 else # !x86
 
-ifeq ($(TARGET_ARCH),sh)
-libc_common_src_files += \
-	arch-sh/bionic/__get_pc.S \
-	arch-sh/bionic/__get_sp.S \
-	arch-sh/bionic/_exit_with_stack_teardown.S \
-	arch-sh/bionic/_setjmp.S \
-	arch-sh/bionic/atomics_sh.c \
-	arch-sh/bionic/atomic_cmpxchg.S \
-	arch-sh/bionic/clone.S \
-	arch-sh/bionic/pipe.S \
-	arch-sh/bionic/memcpy.S \
-	arch-sh/bionic/memset.S \
-	arch-sh/bionic/bzero.S \
-	arch-sh/bionic/setjmp.S \
-	arch-sh/bionic/sigsetjmp.S \
-	arch-sh/bionic/syscall.S \
-	arch-sh/bionic/memmove.S \
-	arch-sh/bionic/__set_tls.c \
-	arch-sh/bionic/__get_tls.c \
-	arch-sh/bionic/ffs.S \
-	string/bcopy.c \
-	string/strcmp.c \
-	string/strncmp.c \
-	string/memcmp.c \
-	string/strlen.c \
-	string/strcpy.c \
-	bionic/pthread-atfork.c \
-	bionic/pthread-rwlocks.c \
-	bionic/pthread-timers.c \
-	bionic/ptrace.c \
-	unistd/socketcalls.c
-
-libc_static_common_src_files += \
-        bionic/pthread.c \
-
-endif # sh
-
 endif # !x86
 endif # !arm
 
@@ -495,10 +458,6 @@ libc_common_cflags := \
 		-DUSE_DL_PREFIX \
 		-DPOSIX_MISTAKE \
                 -DLOG_ON_HEAP_ERROR \
-
-ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
-libc_common_cflags += -DQCOM_HARDWARE
-endif
 
 # these macro definitions are required to implement the
 # 'timezone' and 'daylight' global variables, as well as
@@ -524,10 +483,6 @@ ifeq ($(TARGET_ARCH),arm)
   #
   ifeq ($(ARCH_ARM_HAVE_TLS_REGISTER),true)
     libc_common_cflags += -DHAVE_ARM_TLS_REGISTER
-  endif
-
-  ifeq ($(TARGET_HAVE_TEGRA_ERRATA_657451),true)
-    libc_common_cflags += -DHAVE_TEGRA_ERRATA_657451
   endif
   # Add in defines to activate SCORPION_NEON_OPTIMIZATION
   ifeq ($(TARGET_USE_SCORPION_BIONIC_OPTIMIZATION),true)
